@@ -1,0 +1,56 @@
+:root {
+    font-size: 20px;
+}
+
+html, body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #262626;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    width: max(400px, 30vw);
+}
+
+header > button {
+    appearance: none;
+
+    height: 2rem;
+
+    border: none;
+    border-radius: 6px;
+    background-color: #d4d4d4;
+    color: #262626;
+}
+
+#theme-switcher {
+    display: grid;
+    place-items: center;
+    
+    width: 2rem;
+    padding: 3px;
+
+    border-radius: 50%;
+}
+
+#theme-switcher > svg {
+    height: 100%;
+    width: auto;
+    fill: #262626;
+}
+
+footer {
+    margin-top: auto;
+}
