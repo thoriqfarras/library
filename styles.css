@@ -31,14 +31,13 @@ header {
     justify-content: space-between;
     align-items: center;
 
-    /* padding: 0.5rem; */
     margin: 2rem 0;
 
     background-color: #e4e4e7;
     border-radius: 30px;
 }
 
-button {
+header > button {
     appearance: none;
 
     height: 2rem;
@@ -76,7 +75,7 @@ button {
     fill: #262626;
 }
 
-header > button:hover {
+button:hover {
     background-color: #09090b;
     color: #e4e4e7;
 }
@@ -85,13 +84,19 @@ header > button:hover {
     fill: #e4e4e7;
 }
 
-
 /* Main */
 main > button {
     width: 3rem;
     
     font-size: 1rem;
-    font-style: bold;
+    font-weight: bold;
+
+    border: 0;
+    border-radius: 10px;
+    background-color: #e4e4e7;
+    color: #09090b;
+    
+    transition: all 0.15s ease-in-out;
 }
 
 /* Footer */
