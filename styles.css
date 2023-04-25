@@ -1,5 +1,6 @@
 :root {
     font-size: 20px;
+    font-family: 'Inter', sans-serif;
 }
 
 html, body {
@@ -56,6 +57,8 @@ header > button {
     background-color: inherit;
     color: #262626;
 
+    font-family: inherit;
+
     transition: all 0.15s ease-in-out;
 }
 
@@ -63,7 +66,6 @@ header > button {
     padding: 10px;
     
     border-radius: 30px;
-    font-weight: bold;
 }
 
 #theme-switcher {
@@ -151,6 +153,8 @@ main {
     
     margin: 0;
     padding: 0;
+
+    text-align: center;
 }
 
 .card > h2 {
@@ -169,13 +173,6 @@ main {
     border-radius: 10px;
     transition: all 0.1s ease-in-out;
 }
-
-/* .buttons svg {
-    height: 1.5rem;
-    width: auto;
-    fill: #e4e4e7;
-    transition: all 0.1s ease-in-out;
-} */
 
 .buttons img {
     height: 1.5rem;
