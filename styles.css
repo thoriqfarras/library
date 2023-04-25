@@ -181,27 +181,27 @@ main {
     transition: all 0.1s ease-in-out;
 }
 
-#edit {
+#delete {
     background-color: #b91c1c;
 }
 
-#delete {
+#edit {
     background-color: #1d4ed8;
 }
 
-#edit:hover {
+#delete:hover {
     background-color: #991b1b;
 }
 
-#delete:hover {
+#edit:hover {
     background-color: #1e40af;
 }
 
-#edit:hover > img {
+#delete:hover > img {
     filter: invert(96%) sepia(8%) saturate(83%) hue-rotate(201deg) brightness(90%) contrast(88%);
 }
 
-#delete:hover > img {
+#edit:hover > img {
     filter: invert(96%) sepia(8%) saturate(83%) hue-rotate(201deg) brightness(90%) contrast(88%);
 }
 
