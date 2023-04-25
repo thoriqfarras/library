@@ -13,28 +13,51 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+
+    background-color: #d4d4d8;
     color: #262626;
 }
 
 /* Header */
 
+header > h1 {
+    margin: 0;
+}
+
 header {
+    width: max(400px, 30vw);
+
     display: flex;
     justify-content: space-between;
     align-items: center;
 
-    width: max(400px, 30vw);
+    /* padding: 0.5rem; */
+    margin: 2rem 0;
+
+    background-color: #e4e4e7;
+    border-radius: 30px;
 }
 
 button {
     appearance: none;
 
-    height: 1.6rem;
+    height: 2rem;
 
-    border: none;
+    margin: 0.5rem;
+
+    border: 0;
     border-radius: 6px;
-    background-color: #d4d4d4;
+    background-color: inherit;
     color: #262626;
+
+    transition: all 0.15s ease-in-out;
+}
+
+#sign-in {
+    padding: 10px;
+    
+    border-radius: 30px;
+    font-weight: bold;
 }
 
 #theme-switcher {
@@ -43,7 +66,7 @@ button {
     
     width: 2rem;
     padding: 3px;
-
+    
     border-radius: 50%;
 }
 
@@ -52,6 +75,16 @@ button {
     width: auto;
     fill: #262626;
 }
+
+header > button:hover {
+    background-color: #09090b;
+    color: #e4e4e7;
+}
+
+#theme-switcher:hover > svg {
+    fill: #e4e4e7;
+}
+
 
 /* Main */
 main > button {
