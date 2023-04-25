@@ -26,10 +26,10 @@ header {
     width: max(400px, 30vw);
 }
 
-header > button {
+button {
     appearance: none;
 
-    height: 2rem;
+    height: 1.6rem;
 
     border: none;
     border-radius: 6px;
@@ -51,6 +51,14 @@ header > button {
     height: 100%;
     width: auto;
     fill: #262626;
+}
+
+/* Main */
+main > button {
+    width: 3rem;
+    
+    font-size: 1rem;
+    font-style: bold;
 }
 
 /* Footer */
