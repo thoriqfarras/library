@@ -170,10 +170,17 @@ main {
     transition: all 0.1s ease-in-out;
 }
 
-.buttons svg {
+/* .buttons svg {
     height: 1.5rem;
     width: auto;
     fill: #e4e4e7;
+    transition: all 0.1s ease-in-out;
+} */
+
+.buttons img {
+    height: 1.5rem;
+    width: auto;
+    filter: invert(100%) sepia(49%) saturate(327%) hue-rotate(180deg) brightness(99%) contrast(82%);
     transition: all 0.1s ease-in-out;
 }
 
@@ -185,14 +192,20 @@ main {
     background-color: #1d4ed8;
 }
 
-#edit:hover, #edit:hover > svg {
+#edit:hover {
     background-color: #991b1b;
-    fill: #d4d4d8;
 }
 
-#delete:hover, #delete:hover > svg {
+#delete:hover {
     background-color: #1e40af;
-    fill: #d4d4d8;
+}
+
+#edit:hover > img {
+    filter: invert(96%) sepia(8%) saturate(83%) hue-rotate(201deg) brightness(90%) contrast(88%);
+}
+
+#delete:hover > img {
+    filter: invert(96%) sepia(8%) saturate(83%) hue-rotate(201deg) brightness(90%) contrast(88%);
 }
 
 .card span {
