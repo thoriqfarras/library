@@ -18,6 +18,11 @@ body {
     color: #262626;
 }
 
+button {
+    appearance: none;
+    border: 0;
+}
+
 /* Header */
 
 header > h1 {
@@ -123,10 +128,75 @@ main {
     overflow: auto;
 }
 
+/* Card */
+
 .card {
+    display: flex;
+    flex-direction: column;
+
+    padding: 20px 5px 5px 5px;
+
     border: 1px solid black;
-    border-radius: 30px;
+    border-radius: 15px;
     background-color: #e4e4e7;
+}
+
+.card > p, .card > h2 {
+    align-self: center;
+    
+    margin: 0;
+    padding: 0;
+}
+
+.card > h2 {
+    margin-bottom: 1rem;
+}
+
+.buttons {
+    display: flex;
+    gap: 5px;
+
+    margin-top: auto;
+}
+
+.buttons > button {
+    flex: 1;
+    border-radius: 10px;
+}
+
+.buttons svg {
+    height: 1.5rem;
+    width: auto;
+    fill: #e4e4e7;
+}
+
+#edit {
+    background-color: #b91c1c;
+}
+
+#delete {
+    background-color: #1d4ed8;
+}
+
+.card span {
+    padding: 2px 5px;
+
+    border-radius: 3px;
+
+    font-size: 0.8rem;
+    color: #e4e4e7;
+}
+
+#unread {
+    background-color: #7f1d1d;
+}
+
+#reading {
+    background-color: #c2410c;
+}
+
+#read {
+    background-color: #166534; 
 }
 
 /* Footer */
