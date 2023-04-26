@@ -146,7 +146,7 @@ main {
 
 .collection {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     grid-auto-rows: 250px;
     gap: 1rem;
 }
@@ -197,27 +197,34 @@ main {
     transition: all 0.1s ease-in-out;
 }
 
-#delete {
-    background-color: #b91c1c;
-}
-
 #edit {
     background-color: #1d4ed8;
 }
 
-#delete:hover {
-    background-color: #991b1b;
+#edit a {
+    width: 100%;
+    height: 100%;
+
+    display: inline-block;
+}
+
+#delete {
+    background-color: #b91c1c;
 }
 
 #edit:hover {
     background-color: #1e40af;
 }
 
-#delete:hover > img {
-    filter: invert(96%) sepia(8%) saturate(83%) hue-rotate(201deg) brightness(90%) contrast(88%);
+#delete:hover {
+    background-color: #991b1b;
 }
 
 #edit:hover > img {
+    filter: invert(96%) sepia(8%) saturate(83%) hue-rotate(201deg) brightness(90%) contrast(88%);
+}
+
+#delete:hover > img {
     filter: invert(96%) sepia(8%) saturate(83%) hue-rotate(201deg) brightness(90%) contrast(88%);
 }
 
