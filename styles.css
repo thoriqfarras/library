@@ -104,6 +104,10 @@ main {
     gap: 0.5rem;
 }
 
+#add-book-linker {
+    height: 1rem;
+}
+
 #add-book {
     width: 3rem;
 
@@ -248,6 +252,27 @@ footer > svg:hover {
 }
 
 /* Popups */
+.overlay {
+    position: absolute;
+
+    display: grid;
+    place-items: center;
+
+    width: 100%;
+    height: 100%;
+
+    background-color: rgb(0, 0, 0, 0.3);
+    visibility: hidden;
+    opacity: 0;
+
+    transition: opacity 0.3s ease-out;
+}
+
+.overlay:target {
+    visibility: visible;
+    opacity: 1;
+}
+
 .popup {
     width: 300px;
     
