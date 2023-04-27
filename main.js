@@ -1,6 +1,7 @@
 const editIcon = 'assets/pencil.svg';
 const deleteIcon = 'assets/delete.svg';
 
+
 function Book(title, author, page, status) {
     this.title = title;
     this.author = author;
@@ -8,6 +9,7 @@ function Book(title, author, page, status) {
     this.status = status;
     this.card = undefined;
 }
+
 
 Book.prototype.createCard = function createCard() {
     const card = document.createElement('div');
@@ -74,6 +76,16 @@ Book.prototype.createCard = function createCard() {
     this.card = card;
     return card;
 };
+
+// function Library() {
+//     this.books = [];
+// }
+
+// Library.prototype.addBook = function addBook(title, author, page, status) {
+//     const book = new Book(title, author, page, status);
+//     book.createCard();
+//     this.books.push(book);
+// }
 
 function createAddBookPopUp() {
     const overlay = document.createElement('div');
@@ -196,16 +208,39 @@ function createAddBookPopUp() {
 const library = [];
 const body = document.querySelector('body');
 const collection = document.querySelector('.collection');
-const cards = document.querySelectorAll('.card');
+let cards = document.querySelectorAll('.card');
 
 function addBook(title, author, page, status) {
     const book = new Book(title, author, page, status);
     const card = book.createCard();
     library.push(book);
     collection.appendChild(card);
+    cards = document.querySelectorAll('.card');
+}
+
+function removeBook(book) {
+    library.splice(library.indexOf(book), 1);
+    book.card.remove();
 }
 
 addBook('The Way of Kings', 'Brandon Sanderson', '764', 'read');
 addBook('Words of Radiance', 'Brandon Sanderson', '814', 'read');
 addBook('Oathbringer', 'Brandon Sanderson', '852', 'reading');
 addBook('Rhythm of War', 'Brandon Sanderson', 893, 'unread');
+
+// cards.forEach(card => {
+//     const editBtn = card.querySelector('#edit');
+//     // editBtn.addEventListener('click', editBook);
+
+//     const deleteBtn = card.querySelector('#delete');
+//     // deleteBtn.addEventListener('click', removeBook);
+// });
+
+library.forEach((book) => {
+    const editBtn = book.card.querySelector('#edit');
+    const deleteBtn = book.card.querySelector('#delete');
+
+    deleteBtn.addEventListener('click', () => {
+        removeBook(book);
+    });
+});
