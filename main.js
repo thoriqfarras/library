@@ -20,6 +20,8 @@ Book.prototype.createCard = function createCard() {
     const deleteBtn = document.createElement('button');
     const editBtnIcon = document.createElement('img');
     const deleteBtnIcon = document.createElement('img');
+    const editBtnAnchor = document.createElement('a');
+    const deleteBtnAnchor = document.createElement('a');
 
     // Set text content
     title.textContent = this.title;
@@ -49,8 +51,13 @@ Book.prototype.createCard = function createCard() {
     editBtnIcon.setAttribute('src', editIcon);
     deleteBtnIcon.setAttribute('src', deleteIcon);
 
-    editBtn.appendChild(editBtnIcon);
-    deleteBtn.appendChild(deleteBtnIcon);
+    editBtnAnchor.setAttribute('href', '#edit-book-popup');
+    deleteBtnAnchor.setAttribute('href', '#delete-book-popup');
+
+    editBtnAnchor.appendChild(editBtnIcon);
+    deleteBtnAnchor.appendChild(deleteBtnIcon);
+    editBtn.appendChild(editBtnAnchor);
+    deleteBtn.appendChild(deleteBtnAnchor);
 
     buttons.appendChild(editBtn);
     buttons.appendChild(deleteBtn);
@@ -76,6 +83,7 @@ function addBook(title, author, page, status) {
     collection.appendChild(card);
 }
 
-addBook('The Way of Kings', 'Brandon Sanderson', '764', 'read');
+// addBook('The Way of Kings', 'Brandon Sanderson', '764', 'read');
 addBook('Words of Radiance', 'Brandon Sanderson', '814', 'read');
-addBook('Oathbringer', 'Brandon Sanderson', '852', 'reading');
+// addBook('Oathbringer', 'Brandon Sanderson', '852', 'reading');
+// addBook('Rhythm of War', 'Brandon Sanderson', 893, 'unread');
