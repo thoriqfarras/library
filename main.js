@@ -6,6 +6,7 @@ function Book(title, author, page, status) {
     this.author = author;
     this.page = page;
     this.status = status;
+    this.card = undefined;
 }
 
 Book.prototype.createCard = function createCard() {
@@ -70,6 +71,7 @@ Book.prototype.createCard = function createCard() {
     status.appendChild(statusIndicator);
     card.appendChild(buttons);
 
+    this.card = card;
     return card;
 };
 
@@ -190,7 +192,6 @@ function createAddBookPopUp() {
     inputs.appendChild(statusInput);
     return overlay;
 }
-
 
 const library = [];
 const body = document.querySelector('body');
