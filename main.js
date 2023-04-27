@@ -98,6 +98,7 @@ function createAddBookPopUp() {
     const authorInput = document.createElement('li');
     const pagesInput = document.createElement('li');
     const statusInput = document.createElement('li');
+    const addBookBtn = document.createElement('button');
 
     // Overlay
     overlay.classList.add('overlay');
@@ -148,6 +149,7 @@ function createAddBookPopUp() {
     // Status Input
     const statusFieldset = document.createElement('fieldset');
     const statusLegend = document.createElement('legend');
+    statusLegend.textContent = 'Status';
     const radioButtons = document.createElement('div');
     radioButtons.classList.add('radio-buttons');
     const radioButtonsLabels = document.createElement('div');
@@ -193,9 +195,15 @@ function createAddBookPopUp() {
     radioButtonsLabels.appendChild(readLabel);
     radioButtons.appendChild(readInputField);
 
+    // Add book button
+    addBookBtn.setAttribute('id', 'add-book-in-popup');
+    addBookBtn.setAttribute('type', 'button');
+    addBookBtn.textContent = 'Add book';
+
     overlay.appendChild(popup);
     popup.appendChild(header);
     popup.appendChild(inputs);
+    popup.appendChild(addBookBtn);
     header.appendChild(headerTitle);
     header.appendChild(headerCross);
     inputs.appendChild(titleInput);
@@ -253,14 +261,13 @@ function createDeletePopup(title) {
 const library = [];
 const body = document.querySelector('body');
 const collection = document.querySelector('.collection');
-let cards = document.querySelectorAll('.card');
+const addBtn = document.querySelector('#add-book');
 
 function addBook(title, author, page, status) {
     const book = new Book(title, author, page, status);
     const card = book.createCard();
     library.push(book);
     collection.appendChild(card);
-    cards = document.querySelectorAll('.card');
 }
 
 function removeBook(book) {
@@ -273,13 +280,15 @@ addBook('Words of Radiance', 'Brandon Sanderson', '814', 'read');
 addBook('Oathbringer', 'Brandon Sanderson', '852', 'reading');
 addBook('Rhythm of War', 'Brandon Sanderson', 893, 'unread');
 
-// cards.forEach(card => {
-//     const editBtn = card.querySelector('#edit');
-//     // editBtn.addEventListener('click', editBook);
+addBtn.addEventListener('click', () => {
+    const popup = createAddBookPopUp();
+    const closeBtn = popup.querySelector('a');
+    body.appendChild(popup);
 
-//     const deleteBtn = card.querySelector('#delete');
-//     // deleteBtn.addEventListener('click', removeBook);
-// });
+    closeBtn.addEventListener('click', () => {
+        popup.remove();
+    });
+});
 
 library.forEach((book) => {
     const editBtn = book.card.querySelector('#edit');
