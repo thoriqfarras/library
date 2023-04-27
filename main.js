@@ -205,6 +205,51 @@ function createAddBookPopUp() {
     return overlay;
 }
 
+function createDeletePopup(title) {
+    const overlay = document.createElement('div');
+    const popup = document.createElement('div');
+    const header = document.createElement('div');
+    const headerTitle = document.createElement('h2');
+    const prompt = document.createElement('p');
+    const buttons = document.createElement('div');
+    const yesBtn = document.createElement('button');
+    const noBtn = document.createElement('button');
+    const noBtnAnchor = document.createElement('a');
+
+    overlay.setAttribute('id', 'delete-book-popup');
+    overlay.classList.add('overlay');
+
+    header.classList.add('header')
+    headerTitle.textContent = 'Hold up...';
+    header.appendChild(headerTitle);
+
+    prompt.textContent = `Are you sure you want to delete '${title}'?`;
+
+    popup.classList.add('popup');
+
+    buttons.classList.add('buttons');
+
+    yesBtn.setAttribute('id', 'delete-yes');
+    yesBtn.setAttribute('type', 'button');
+    yesBtn.textContent = 'Yes';
+    
+    noBtn.setAttribute('id', 'delete-no');
+    noBtn.setAttribute('type', 'button');
+    noBtnAnchor.setAttribute('href', '#');
+    noBtnAnchor.textContent = 'No';
+    noBtn.appendChild(noBtnAnchor);
+    
+    buttons.append(yesBtn);
+    buttons.append(noBtn);
+
+    overlay.appendChild(popup);
+    popup.appendChild(header);
+    popup.appendChild(prompt);
+    popup.appendChild(buttons);
+
+    return overlay;
+}
+
 const library = [];
 const body = document.querySelector('body');
 const collection = document.querySelector('.collection');
@@ -241,6 +286,18 @@ library.forEach((book) => {
     const deleteBtn = book.card.querySelector('#delete');
 
     deleteBtn.addEventListener('click', () => {
-        removeBook(book);
+        const popup = createDeletePopup(book.title);
+        const yesBtn = popup.querySelector('#delete-yes');
+        const noBtn = popup.querySelector('#delete-no');
+        body.appendChild(popup);
+
+        yesBtn.addEventListener('click', () => {
+            removeBook(book);
+            popup.remove();
+        });
+        
+        noBtn.addEventListener('click', () => {
+            popup.remove();
+        });
     });
 });
