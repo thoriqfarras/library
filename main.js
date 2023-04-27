@@ -25,14 +25,14 @@ Book.prototype.createCard = function createCard() {
     const deleteBtnIcon = document.createElement('img');
     const editBtnAnchor = document.createElement('a');
     const deleteBtnAnchor = document.createElement('a');
-
+    
     // Set text content
     title.textContent = this.title;
     author.textContent = this.author;
     pages.textContent = `Pages: ${this.page}`;
     status.textContent = 'Status: ';
     statusIndicator.textContent = this.status;
-
+    
     if (this.status === 'unread') {
         statusIndicator.setAttribute('id', 'unread');
     } else if (this.status === 'reading') {
@@ -42,29 +42,29 @@ Book.prototype.createCard = function createCard() {
     } else {
         statusIndicator.style.color = '#09090b';
     }
-
+    
     // set button
     buttons.classList.add('buttons');
-
+    
     editBtn.setAttribute('type', 'button');
     deleteBtn.setAttribute('type', 'button');
     editBtn.setAttribute('id', 'edit');
     deleteBtn.setAttribute('id', 'delete');
-
+    
     editBtnIcon.setAttribute('src', editIcon);
     deleteBtnIcon.setAttribute('src', deleteIcon);
-
+    
     editBtnAnchor.setAttribute('href', '#edit-book-popup');
     deleteBtnAnchor.setAttribute('href', '#delete-book-popup');
-
+    
     editBtnAnchor.appendChild(editBtnIcon);
     deleteBtnAnchor.appendChild(deleteBtnIcon);
     editBtn.appendChild(editBtnAnchor);
     deleteBtn.appendChild(deleteBtnAnchor);
-
+    
     buttons.appendChild(editBtn);
     buttons.appendChild(deleteBtn);
-
+    
     card.classList.add('card');
     card.appendChild(title);
     card.appendChild(author);
@@ -72,22 +72,166 @@ Book.prototype.createCard = function createCard() {
     card.appendChild(status);
     status.appendChild(statusIndicator);
     card.appendChild(buttons);
-
+    
     this.card = card;
     return card;
 };
 
-// function Library() {
-//     this.books = [];
+// function createAddBookPopUp() {
+//     const overlay = document.createElement('div');
+//     const popup = document.createElement('div');
+//     const header = document.createElement('div');
+//     const headerTitle = document.createElement('h2');
+//     const headerCross = document.createElement('a');
+//     const inputs = document.createElement('ul');
+//     const titleInput = document.createElement('li');
+//     const authorInput = document.createElement('li');
+//     const pagesInput = document.createElement('li');
+//     const statusInput = document.createElement('li');
+//     const addBookBtn = document.createElement('button');
+    
+//     // Overlay
+//     overlay.classList.add('overlay');
+//     overlay.setAttribute('id', 'add-book-popup');
+    
+//     // Popup
+//     popup.classList.add('popup');
+    
+//     // Header
+//     header.classList.add('header');
+//     headerTitle.textContent = 'Add a book';
+//     headerCross.textContent = 'x';
+//     headerCross.setAttribute('href', '#');
+    
+//     // Title input
+//     const titleLabel = document.createElement('label');
+//     titleLabel.setAttribute('for', 'book-title');
+//     titleLabel.textContent = 'Title';
+//     const titleInputField = document.createElement('input');
+//     titleInputField.setAttribute('type', 'text')
+//     titleInputField.setAttribute('name', 'title')
+//     titleInputField.setAttribute('id', 'book-title');
+//     titleInput.appendChild(titleLabel);
+//     titleInput.appendChild(titleInputField);
+    
+//     // Author input
+//     const authorLabel = document.createElement('label');
+//     authorLabel.setAttribute('for', 'book-author');
+//     authorLabel.textContent = 'Author';
+//     const authorInputField = document.createElement('input');
+//     authorInputField.setAttribute('type', 'text')
+//     authorInputField.setAttribute('name', 'author')
+//     authorInputField.setAttribute('id', 'book-author');
+//     authorInput.appendChild(authorLabel);
+//     authorInput.appendChild(authorInputField);
+    
+//     // Pages input
+//     const pagesLabel = document.createElement('label');
+//     pagesLabel.setAttribute('for', 'book-pages');
+//     pagesLabel.textContent = 'Pages';
+//     const pagesInputField = document.createElement('input');
+//     pagesInputField.setAttribute('type', 'number')
+//     pagesInputField.setAttribute('name', 'pages')
+//     pagesInputField.setAttribute('id', 'book-pages');
+//     pagesInput.appendChild(pagesLabel);
+//     pagesInput.appendChild(pagesInputField);
+    
+//     // Status Input
+//     const statusFieldset = document.createElement('fieldset');
+//     const statusLegend = document.createElement('legend');
+//     statusLegend.textContent = 'Status';
+//     const radioButtons = document.createElement('div');
+//     radioButtons.classList.add('radio-buttons');
+//     const radioButtonsLabels = document.createElement('div');
+//     radioButtonsLabels.classList.add('radio-buttons-text');
+//     statusInput.appendChild(statusFieldset);
+//     statusFieldset.appendChild(statusLegend);
+//     statusFieldset.appendChild(radioButtons);
+//     statusFieldset.appendChild(radioButtonsLabels);
+    
+//     // // Unread button
+//     const unreadLabel = document.createElement('label');
+//     unreadLabel.setAttribute('for', 'book-unread');
+//     unreadLabel.textContent = 'To be read';
+//     const unreadInputField = document.createElement('input');
+//     unreadInputField.setAttribute('type', 'radio')
+//     unreadInputField.setAttribute('name', 'status')
+//     unreadInputField.setAttribute('id', 'book-unread')
+//     unreadInputField.setAttribute('value', 'unread');
+//     radioButtonsLabels.appendChild(unreadLabel);
+//     radioButtons.appendChild(unreadInputField);
+    
+//     // // Reading button
+//     const readingLabel = document.createElement('label');
+//     readingLabel.setAttribute('for', 'book-reading');
+//     readingLabel.textContent = 'Currently reading';
+//     const readingInputField = document.createElement('input');
+//     readingInputField.setAttribute('type', 'radio')
+//     readingInputField.setAttribute('name', 'status')
+//     readingInputField.setAttribute('id', 'book-reading')
+//     readingInputField.setAttribute('value', 'reading');
+//     radioButtonsLabels.appendChild(readingLabel);
+//     radioButtons.appendChild(readingInputField);
+    
+//     // // Reading button
+//     const readLabel = document.createElement('label');
+//     readLabel.setAttribute('for', 'book-read');
+//     readLabel.textContent = 'Read';
+//     const readInputField = document.createElement('input')
+//     readInputField.setAttribute('type', 'radio')
+//     readInputField.setAttribute('name', 'status')
+//     readInputField.setAttribute('id', 'book-read')
+//     readInputField.setAttribute('value', 'read');
+//     radioButtonsLabels.appendChild(readLabel);
+//     radioButtons.appendChild(readInputField);
+    
+//     // Add book button
+//     addBookBtn.setAttribute('id', 'add-book-in-popup');
+//     addBookBtn.setAttribute('type', 'button');
+//     addBookBtn.textContent = 'Add book';
+    
+//     overlay.appendChild(popup);
+//     popup.appendChild(header);
+//     popup.appendChild(inputs);
+//     popup.appendChild(addBookBtn);
+//     header.appendChild(headerTitle);
+//     header.appendChild(headerCross);
+//     inputs.appendChild(titleInput);
+//     inputs.appendChild(authorInput);
+//     inputs.appendChild(pagesInput);
+//     inputs.appendChild(statusInput);
+//     return overlay;
 // }
 
-// Library.prototype.addBook = function addBook(title, author, page, status) {
-//     const book = new Book(title, author, page, status);
-//     book.createCard();
-//     this.books.push(book);
-// }
-
-function createAddBookPopUp() {
+function createAddOrEditBookPopUp(type='add', book={}) {
+    let overlayId = 'add-book-popup';
+    let headerTitleText = 'Add a book';
+    let titleInputValue = '';
+    let authorInputValue = '';
+    let pagesInputValue = '';
+    let statusInputValue = '';
+    let btnId = 'add-book-in-popup';
+    let btnText = 'Add book';
+    
+    if (type === 'edit') {
+        overlayId = 'edit-book-popup';
+        headerTitleText = 'Edit book';
+        btnId = 'edit-book-in-popup';
+        btnText = 'Save changes';
+        titleInputValue = book.title;
+        authorInputValue = book.author;
+        pagesInputValue = book.page;
+        statusInputValue = book.status;
+    }
+    
+    console.log(book);
+    console.log(titleInputValue);
+    console.log(authorInputValue);
+    console.log(pagesInputValue);
+    console.log(statusInputValue);
+    
+    
+    
     const overlay = document.createElement('div');
     const popup = document.createElement('div');
     const header = document.createElement('div');
@@ -98,21 +242,21 @@ function createAddBookPopUp() {
     const authorInput = document.createElement('li');
     const pagesInput = document.createElement('li');
     const statusInput = document.createElement('li');
-    const addBookBtn = document.createElement('button');
-
+    const btn = document.createElement('button');
+    
     // Overlay
     overlay.classList.add('overlay');
-    overlay.setAttribute('id', 'add-book-popup');
-
+    overlay.setAttribute('id', overlayId);
+    
     // Popup
     popup.classList.add('popup');
-
+    
     // Header
     header.classList.add('header');
-    headerTitle.textContent = 'Add a book';
+    headerTitle.textContent = headerTitleText;
     headerCross.textContent = 'x';
     headerCross.setAttribute('href', '#');
-
+    
     // Title input
     const titleLabel = document.createElement('label');
     titleLabel.setAttribute('for', 'book-title');
@@ -121,9 +265,10 @@ function createAddBookPopUp() {
     titleInputField.setAttribute('type', 'text')
     titleInputField.setAttribute('name', 'title')
     titleInputField.setAttribute('id', 'book-title');
+    titleInputField.setAttribute('value', titleInputValue);
     titleInput.appendChild(titleLabel);
     titleInput.appendChild(titleInputField);
-
+    
     // Author input
     const authorLabel = document.createElement('label');
     authorLabel.setAttribute('for', 'book-author');
@@ -132,9 +277,10 @@ function createAddBookPopUp() {
     authorInputField.setAttribute('type', 'text')
     authorInputField.setAttribute('name', 'author')
     authorInputField.setAttribute('id', 'book-author');
+    authorInputField.setAttribute('value', authorInputValue);
     authorInput.appendChild(authorLabel);
     authorInput.appendChild(authorInputField);
-
+    
     // Pages input
     const pagesLabel = document.createElement('label');
     pagesLabel.setAttribute('for', 'book-pages');
@@ -143,9 +289,10 @@ function createAddBookPopUp() {
     pagesInputField.setAttribute('type', 'number')
     pagesInputField.setAttribute('name', 'pages')
     pagesInputField.setAttribute('id', 'book-pages');
+    pagesInputField.setAttribute('value', pagesInputValue);
     pagesInput.appendChild(pagesLabel);
     pagesInput.appendChild(pagesInputField);
-
+    
     // Status Input
     const statusFieldset = document.createElement('fieldset');
     const statusLegend = document.createElement('legend');
@@ -158,7 +305,7 @@ function createAddBookPopUp() {
     statusFieldset.appendChild(statusLegend);
     statusFieldset.appendChild(radioButtons);
     statusFieldset.appendChild(radioButtonsLabels);
-
+    
     // // Unread button
     const unreadLabel = document.createElement('label');
     unreadLabel.setAttribute('for', 'book-unread');
@@ -183,7 +330,7 @@ function createAddBookPopUp() {
     radioButtonsLabels.appendChild(readingLabel);
     radioButtons.appendChild(readingInputField);
     
-    // // Reading button
+    // // Read button
     const readLabel = document.createElement('label');
     readLabel.setAttribute('for', 'book-read');
     readLabel.textContent = 'Read';
@@ -194,16 +341,25 @@ function createAddBookPopUp() {
     readInputField.setAttribute('value', 'read');
     radioButtonsLabels.appendChild(readLabel);
     radioButtons.appendChild(readInputField);
-
+    
+    // Checked button for edit popup
+    if (statusInputValue === 'unread') {
+        unreadInputField.checked = true;
+    } else if (statusInputValue === 'reading') {
+        readingInputField.checked = true;
+    } else if (statusInputValue === 'read') {
+        readInputField.checked = true;
+    }
+    
     // Add book button
-    addBookBtn.setAttribute('id', 'add-book-in-popup');
-    addBookBtn.setAttribute('type', 'button');
-    addBookBtn.textContent = 'Add book';
-
+    btn.setAttribute('id', btnId);
+    btn.setAttribute('type', 'button');
+    btn.textContent = btnText;
+    
     overlay.appendChild(popup);
     popup.appendChild(header);
     popup.appendChild(inputs);
-    popup.appendChild(addBookBtn);
+    popup.appendChild(btn);
     header.appendChild(headerTitle);
     header.appendChild(headerCross);
     inputs.appendChild(titleInput);
@@ -223,20 +379,20 @@ function createDeletePopup(title) {
     const yesBtn = document.createElement('button');
     const noBtn = document.createElement('button');
     const noBtnAnchor = document.createElement('a');
-
+    
     overlay.setAttribute('id', 'delete-book-popup');
     overlay.classList.add('overlay');
-
+    
     header.classList.add('header')
     headerTitle.textContent = 'Hold up...';
     header.appendChild(headerTitle);
-
+    
     prompt.textContent = `Are you sure you want to delete '${title}'?`;
-
+    
     popup.classList.add('popup');
-
+    
     buttons.classList.add('buttons');
-
+    
     yesBtn.setAttribute('id', 'delete-yes');
     yesBtn.setAttribute('type', 'button');
     yesBtn.textContent = 'Yes';
@@ -249,12 +405,12 @@ function createDeletePopup(title) {
     
     buttons.append(yesBtn);
     buttons.append(noBtn);
-
+    
     overlay.appendChild(popup);
     popup.appendChild(header);
     popup.appendChild(prompt);
     popup.appendChild(buttons);
-
+    
     return overlay;
 }
 
@@ -281,9 +437,15 @@ addBook('Oathbringer', 'Brandon Sanderson', '852', 'reading');
 addBook('Rhythm of War', 'Brandon Sanderson', 893, 'unread');
 
 addBtn.addEventListener('click', () => {
-    const popup = createAddBookPopUp();
+    const popup = createAddOrEditBookPopUp('add');
+    const addBookBtn = popup.querySelector('#add-book-in-popup');
     const closeBtn = popup.querySelector('a');
     body.appendChild(popup);
+    
+    addBookBtn.addEventListener('click', () => {
+        const title = popup.querySelector('#book-title');
+        console.log(title);
+    })
 
     closeBtn.addEventListener('click', () => {
         popup.remove();
@@ -293,13 +455,23 @@ addBtn.addEventListener('click', () => {
 library.forEach((book) => {
     const editBtn = book.card.querySelector('#edit');
     const deleteBtn = book.card.querySelector('#delete');
-
+    
+    editBtn.addEventListener('click', () => {
+        const popup = createAddOrEditBookPopUp('edit', book);
+        const closeBtn = popup.querySelector('a');
+        body.appendChild(popup);
+        
+        closeBtn.addEventListener('click', () => {
+            popup.remove();
+        });
+    });
+    
     deleteBtn.addEventListener('click', () => {
         const popup = createDeletePopup(book.title);
         const yesBtn = popup.querySelector('#delete-yes');
         const noBtn = popup.querySelector('#delete-no');
         body.appendChild(popup);
-
+        
         yesBtn.addEventListener('click', () => {
             removeBook(book);
             popup.remove();
