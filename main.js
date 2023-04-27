@@ -89,20 +89,20 @@ Book.prototype.createCard = function createCard() {
 //     const pagesInput = document.createElement('li');
 //     const statusInput = document.createElement('li');
 //     const addBookBtn = document.createElement('button');
-    
+
 //     // Overlay
 //     overlay.classList.add('overlay');
 //     overlay.setAttribute('id', 'add-book-popup');
-    
+
 //     // Popup
 //     popup.classList.add('popup');
-    
+
 //     // Header
 //     header.classList.add('header');
 //     headerTitle.textContent = 'Add a book';
 //     headerCross.textContent = 'x';
 //     headerCross.setAttribute('href', '#');
-    
+
 //     // Title input
 //     const titleLabel = document.createElement('label');
 //     titleLabel.setAttribute('for', 'book-title');
@@ -113,7 +113,7 @@ Book.prototype.createCard = function createCard() {
 //     titleInputField.setAttribute('id', 'book-title');
 //     titleInput.appendChild(titleLabel);
 //     titleInput.appendChild(titleInputField);
-    
+
 //     // Author input
 //     const authorLabel = document.createElement('label');
 //     authorLabel.setAttribute('for', 'book-author');
@@ -124,7 +124,7 @@ Book.prototype.createCard = function createCard() {
 //     authorInputField.setAttribute('id', 'book-author');
 //     authorInput.appendChild(authorLabel);
 //     authorInput.appendChild(authorInputField);
-    
+
 //     // Pages input
 //     const pagesLabel = document.createElement('label');
 //     pagesLabel.setAttribute('for', 'book-pages');
@@ -135,7 +135,7 @@ Book.prototype.createCard = function createCard() {
 //     pagesInputField.setAttribute('id', 'book-pages');
 //     pagesInput.appendChild(pagesLabel);
 //     pagesInput.appendChild(pagesInputField);
-    
+
 //     // Status Input
 //     const statusFieldset = document.createElement('fieldset');
 //     const statusLegend = document.createElement('legend');
@@ -148,7 +148,7 @@ Book.prototype.createCard = function createCard() {
 //     statusFieldset.appendChild(statusLegend);
 //     statusFieldset.appendChild(radioButtons);
 //     statusFieldset.appendChild(radioButtonsLabels);
-    
+
 //     // // Unread button
 //     const unreadLabel = document.createElement('label');
 //     unreadLabel.setAttribute('for', 'book-unread');
@@ -160,7 +160,7 @@ Book.prototype.createCard = function createCard() {
 //     unreadInputField.setAttribute('value', 'unread');
 //     radioButtonsLabels.appendChild(unreadLabel);
 //     radioButtons.appendChild(unreadInputField);
-    
+
 //     // // Reading button
 //     const readingLabel = document.createElement('label');
 //     readingLabel.setAttribute('for', 'book-reading');
@@ -172,7 +172,7 @@ Book.prototype.createCard = function createCard() {
 //     readingInputField.setAttribute('value', 'reading');
 //     radioButtonsLabels.appendChild(readingLabel);
 //     radioButtons.appendChild(readingInputField);
-    
+
 //     // // Reading button
 //     const readLabel = document.createElement('label');
 //     readLabel.setAttribute('for', 'book-read');
@@ -184,12 +184,12 @@ Book.prototype.createCard = function createCard() {
 //     readInputField.setAttribute('value', 'read');
 //     radioButtonsLabels.appendChild(readLabel);
 //     radioButtons.appendChild(readInputField);
-    
+
 //     // Add book button
 //     addBookBtn.setAttribute('id', 'add-book-in-popup');
 //     addBookBtn.setAttribute('type', 'button');
 //     addBookBtn.textContent = 'Add book';
-    
+
 //     overlay.appendChild(popup);
 //     popup.appendChild(header);
 //     popup.appendChild(inputs);
@@ -343,12 +343,12 @@ function createAddOrEditBookPopUp(type='add', book={}) {
     radioButtons.appendChild(readInputField);
     
     // Checked button for edit popup
-    if (statusInputValue === 'unread') {
-        unreadInputField.checked = true;
-    } else if (statusInputValue === 'reading') {
+    if (statusInputValue === 'reading') {
         readingInputField.checked = true;
     } else if (statusInputValue === 'read') {
         readInputField.checked = true;
+    } else {
+        unreadInputField.checked = true;
     }
     
     // Add book button
@@ -443,10 +443,15 @@ addBtn.addEventListener('click', () => {
     body.appendChild(popup);
     
     addBookBtn.addEventListener('click', () => {
-        const title = popup.querySelector('#book-title');
-        console.log(title);
+        const title = popup.querySelector('#book-title').value;
+        const author = popup.querySelector('#book-author').value;
+        const pages = popup.querySelector('#book-pages').value;
+        const status = popup.querySelector(`[name="status"]:checked`).value;
+        
+        addBook(title, author, pages, status);
+        popup.remove();
     })
-
+    
     closeBtn.addEventListener('click', () => {
         popup.remove();
     });
