@@ -1,6 +1,9 @@
 :root {
     font-size: 20px;
     font-family: 'Inter', sans-serif;
+
+    --black-text: #262626;
+    --white-text: #e4e4e7;
 }
 
 html, body {
@@ -19,16 +22,48 @@ body {
     color: #262626;
 }
 
-button {
+button, input, fieldset {
     appearance: none;
     border: 0;
+    margin: 0;
+    padding: 0;
+}
+
+button:hover {
+    background-color: var(--black-text);
+    color: #e4e4e7;
+}
+
+p, h1, h2, button, ul, li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+a {
+    display: inline-block;
+    text-decoration: none;
+}
+
+/* Utility selectors */
+
+.text-dark {
+    color: var(--black-text);
+}
+
+.text-light {
+    color: var(--white-text);
+}
+
+.fill-dark {
+    fill: var(--black-text);
+}
+
+.fill-light {
+    color: var(--white-text);
 }
 
 /* Header */
-
-header > h1 {
-    margin: 0;
-}
 
 header {
     width: max(400px, 30vw);
@@ -51,10 +86,8 @@ header > button {
 
     margin: 0.5rem;
 
-    border: 0;
     border-radius: 6px;
     background-color: inherit;
-    color: #262626;
 
     font-family: inherit;
 
@@ -63,7 +96,6 @@ header > button {
 
 #sign-in {
     padding: 10px;
-    
     border-radius: 30px;
 }
 
@@ -80,12 +112,6 @@ header > button {
 #theme-switcher > svg {
     height: 100%;
     width: auto;
-    fill: #262626;
-}
-
-button:hover {
-    background-color: #09090b;
-    color: #e4e4e7;
 }
 
 #theme-switcher:hover > svg {
@@ -133,15 +159,12 @@ main {
     border-radius: inherit;
     padding: inherit;
 
-    text-decoration: none;
-    color: #09090b;
-
     transition: all 0.15s ease-in-out;
 }
 
 #add-book:hover, #add-book a:hover {
-    background-color: #09090b;
-    color: #e4e4e7;
+    background-color: var(--black-text);
+    color: var(--white-text);
 }
 
 .collection {
@@ -160,21 +183,16 @@ main {
     padding: 20px 5px 5px 5px;
 
     border-radius: 15px;
-    background-color: #e4e4e7;
+    background-color: var(--white-text);
     box-shadow: 0px 0px 5px 0px #4b5563;
-}
-
-.card > p, .card > h2 {
-    align-self: center;
-    
-    margin: 0;
-    padding: 0;
-
-    text-align: center;
 }
 
 .card > h2 {
     margin-bottom: 1rem;
+}
+
+.card > h2, .card > p {
+    text-align: center;
 }
 
 .buttons {
@@ -201,11 +219,9 @@ main {
     background-color: #1d4ed8;
 }
 
-#edit a {
+#edit a, #delete a {
     width: 100%;
     height: 100%;
-
-    display: inline-block;
 }
 
 #delete {
@@ -234,7 +250,7 @@ main {
     border-radius: 3px;
 
     font-size: 0.8rem;
-    color: #e4e4e7;
+    color: var(--white-text);
 }
 
 #unread {
@@ -257,8 +273,6 @@ footer {
     gap: 4px;
 
     margin-top: auto;
-
-    /* overflow: hidden; */
 }
 
 footer > svg {
@@ -299,7 +313,7 @@ footer > svg:hover {
     
     padding: 2rem 3rem 3rem 3rem;
 
-    background-color: #e4e4e7;
+    background-color: var(--white-text);
     border-radius: 15px;
     box-shadow: 0px 0px 5px 0px #4b5563;
 }
@@ -330,7 +344,7 @@ footer > svg:hover {
     text-decoration: none;
     font-size: 1.5rem;
     font-weight: bold;
-    color: #262626;
+    color: var(--black-text);
     transition: color 0.1s ease-in-out;
 }
 
@@ -361,11 +375,7 @@ footer > svg:hover {
     width: 100%;
     min-height: 2rem;
 
-    margin: 0;
-    padding: 0;
-
     border-radius: 10px;
-    /* border: 2px solid #09090b; */
 }
 
 .popup input[type='radio']#book-unread {
@@ -396,23 +406,9 @@ footer > svg:hover {
     background-color: #15803d;
 }
 
-/* .popup input[type='radio']:checked {
-    border: 1px solid white;
-} */
-
 .popup fieldset {
     position: relative;
-
-    appearance: none;
-    padding: 0;
-    margin: 0;
-    border: 0;
 }
-
-/* .popup fieldset label {
-    visibility: hidden;
-    position: absolute;
-} */
 
 .radio-buttons, .radio-buttons-text {
     display: flex;
@@ -446,7 +442,7 @@ footer > svg:hover {
     border: 2px solid transparent;
     background-color: transparent;
 
-    color: #e4e4e7;
+    color: var(--white-text);
 }
 
 .popup button {
@@ -460,6 +456,13 @@ footer > svg:hover {
 
     font-family: 'Inter', sans-serif;
     font-weight: bold;
+}
+
+.popup button a {
+    width: 100%;
+    height: 100%;
+
+    color: var(--white-text);
 }
 
 /* Animation */
