@@ -29,6 +29,10 @@ button, input, fieldset {
     padding: 0;
 }
 
+button {
+    cursor: pointer;
+}
+
 button:hover {
     background-color: var(--black-text);
     color: #e4e4e7;
@@ -213,6 +217,7 @@ main {
     width: auto;
     filter: invert(100%) sepia(49%) saturate(327%) hue-rotate(180deg) brightness(99%) contrast(82%);
     transition: all 0.1s ease-in-out;
+    pointer-events: none;
 }
 
 #edit {
@@ -303,7 +308,7 @@ footer > svg:hover {
     transition: opacity 0.3s ease-out;
 }
 
-.overlay:target {
+.overlay.active {
     visibility: visible;
     opacity: 1;
 }
