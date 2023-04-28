@@ -56,11 +56,6 @@ Book.prototype.createCard = function createCard() {
     
     editBtnAnchor.setAttribute('href', '#edit-book-popup');
     deleteBtnAnchor.setAttribute('href', '#delete-book-popup');
-    
-    // editBtnAnchor.appendChild(editBtnIcon);
-    // deleteBtnAnchor.appendChild(deleteBtnIcon);
-    // editBtn.appendChild(editBtnAnchor);
-    // deleteBtn.appendChild(deleteBtnAnchor);
 
     editBtn.appendChild(editBtnIcon);
     deleteBtn.appendChild(deleteBtnIcon);
@@ -80,24 +75,6 @@ Book.prototype.createCard = function createCard() {
     return card;
 };
 
-function displayPopup(type) {
-    if (type === 'add') {
-        const popup = document.querySelector('#add-book-popup');
-        popup.classList.toggle('active');
-    } else if (type === 'delete') {
-        const popup = document.querySelector('#delete-book-popup');
-        popup.classList.toggle('active');
-    }
-}
-
-function closePopup(popup) {
-    popup.classList.toggle('active');
-    if (popup.id === 'delete-book-popup') {
-        const deletePopupPrompt = popup.querySelector('p');
-        deletePopupPrompt.textContent = deletePopupPrompt.textContent.substring(0, deletePopupPrompt.textContent.indexOf("'"));
-    }
-}
-
 let library = [];
 const grid = document.querySelector('.collection');
 const addBtn = document.querySelector('#add-book');
@@ -106,19 +83,29 @@ const deleteBookBtn = document.querySelector('#delete-yes');
 const closePopupBtns = document.querySelectorAll('.close-popup');
 
 // popups
+const addPopup = document.querySelector('#add-book-popup')
 const deletePopup = document.querySelector('#delete-book-popup');
 
+// Event listeners
 addBtn.addEventListener('click', () => {
     displayPopup('add');
 });
 
 grid.addEventListener('click', gridEventListener);
 
-deleteBookBtn.addEventListener('click', removeBookFromLibrary);
+addBookBtn.addEventListener('click', () => {
+    const form = addPopup.querySelector('form');
+    const title = form.querySelector('#book-title').value;
+    const author = form.querySelector('#book-author').value;
+    const pages = form.querySelector('#book-pages').value;
+    const status = form.querySelector(`[name="status"]:checked`).value;
+    console.log(title, author, pages, status);
+    addBook(title, author, pages, status);
+    closePopup(addPopup);
+    resetForm(form);
+});
 
-// deleteBtn?.addEventListener('click', () => {
-//     displayPopup('delete');
-// });
+deleteBookBtn.addEventListener('click', removeBookFromLibrary);
 
 closePopupBtns.forEach(btn => {
     btn.addEventListener('click', () => {
@@ -133,7 +120,6 @@ function updateLibraryGrid() {
     const grid = document.querySelector('.collection');
     library.forEach(book => {
         grid.appendChild(book.card);
-        // updateButtonsInCards();
     });
 }
 
@@ -142,10 +128,6 @@ function resetLibraryGrid() {
     cards.forEach(card => {
         card.remove();
     });
-}
-
-function updateButtonsInCards() {
-    deleteBtn = document.querySelector('#delete');
 }
 
 function addBook(title, author, page, status) {
@@ -176,6 +158,28 @@ function gridEventListener(e) {
         popup.classList.toggle('active');
         const prompt = popup.querySelector('p');
         prompt.textContent += ` '${book[0].title}'?`;
+    }
+}
+
+function resetForm(form) {
+    form.reset();
+}
+
+function displayPopup(type) {
+    if (type === 'add') {
+        const popup = document.querySelector('#add-book-popup');
+        popup.classList.toggle('active');
+    } else if (type === 'delete') {
+        const popup = document.querySelector('#delete-book-popup');
+        popup.classList.toggle('active');
+    }
+}
+
+function closePopup(popup) {
+    popup.classList.toggle('active');
+    if (popup.id === 'delete-book-popup') {
+        const deletePopupPrompt = popup.querySelector('p');
+        deletePopupPrompt.textContent = deletePopupPrompt.textContent.substring(0, deletePopupPrompt.textContent.indexOf("'"));
     }
 }
 
