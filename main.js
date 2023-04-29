@@ -1,6 +1,7 @@
 const editIcon = 'assets/pencil.svg';
 const deleteIcon = 'assets/delete.svg';
 
+// Book object
 
 function Book(title, author, page, status) {
     this.title = title;
@@ -93,17 +94,7 @@ addBtn.addEventListener('click', () => {
 
 grid.addEventListener('click', gridEventListener);
 
-addBookBtn.addEventListener('click', () => {
-    const form = addPopup.querySelector('form');
-    const title = form.querySelector('#book-title').value;
-    const author = form.querySelector('#book-author').value;
-    const pages = form.querySelector('#book-pages').value;
-    const status = form.querySelector(`[name="status"]:checked`).value;
-    console.log(title, author, pages, status);
-    addBook(title, author, pages, status);
-    closePopup(addPopup);
-    resetForm(form);
-});
+addBookBtn.addEventListener('click', addBookToLibrary);
 
 deleteBookBtn.addEventListener('click', removeBookFromLibrary);
 
@@ -114,6 +105,7 @@ closePopupBtns.forEach(btn => {
     });
 });
 
+// functions
 
 function updateLibraryGrid() {
     resetLibraryGrid();
@@ -135,6 +127,18 @@ function addBook(title, author, page, status) {
     book.createCard();
     library.push(book);
     updateLibraryGrid();
+}
+
+function addBookToLibrary() {
+    const form = addPopup.querySelector('form');
+    const title = form.querySelector('#book-title').value;
+    const author = form.querySelector('#book-author').value;
+    const pages = form.querySelector('#book-pages').value;
+    const status = form.querySelector(`[name="status"]:checked`).value;
+    console.log(title, author, pages, status);
+    addBook(title, author, pages, status);
+    closePopup(addPopup);
+    resetForm(form);
 }
 
 function removeBook(bookTbd) {
@@ -180,6 +184,9 @@ function closePopup(popup) {
     if (popup.id === 'delete-book-popup') {
         const deletePopupPrompt = popup.querySelector('p');
         deletePopupPrompt.textContent = deletePopupPrompt.textContent.substring(0, deletePopupPrompt.textContent.indexOf("'"));
+    } else {
+        const form = popup.querySelector('form');
+        resetForm(form);
     }
 }
 
