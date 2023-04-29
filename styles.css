@@ -277,7 +277,7 @@ footer {
     align-items: center;
     gap: 4px;
 
-    margin-top: auto;
+    margin: auto 0 1rem 0;
 }
 
 footer > svg {
