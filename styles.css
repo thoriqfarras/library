@@ -383,31 +383,31 @@ footer > svg:hover {
     border-radius: 10px;
 }
 
-.popup input[type='radio']#book-unread {
+.popup input[type='radio']#book-unread, .popup input[type='radio']#current-book-unread {
     background-color: #b91c1c;
     border: 2px solid #991b1b;
 }
 
 
-.popup input[type='radio']#book-reading {
+.popup input[type='radio']#book-reading, .popup input[type='radio']#current-book-reading {
     background-color: #d97706;
     border: 2px solid #b45309;
 }
 
-.popup input[type='radio']#book-read {
+.popup input[type='radio']#book-read, .popup input[type='radio']#current-book-read {
     background-color: #16a34a;
     border: 2px solid #15803d;
 }
 
-.popup input[type='radio']#book-unread:checked {
+.popup input[type='radio']#book-unread:checked, .popup input[type='radio']#current-book-unread:checked {
     background-color: #991b1b;
 }
 
-.popup input[type='radio']#book-reading:checked {
+.popup input[type='radio']#book-reading:checked, .popup input[type='radio']#current-book-reading:checked {
     background-color: #b45309;
 }
 
-.popup input[type='radio']#book-read:checked {
+.popup input[type='radio']#book-read:checked, .popup input[type='radio']#current-book-read:checked {
     background-color: #15803d;
 }
 

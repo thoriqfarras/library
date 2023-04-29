@@ -77,14 +77,17 @@ Book.prototype.createCard = function createCard() {
 };
 
 let library = [];
+let bookToBeEdited = {};
 const grid = document.querySelector('.collection');
 const addBtn = document.querySelector('#add-book');
 const addBookBtn = document.querySelector('#add-book-in-popup');
+const saveEditBtn = document.querySelector('#edit-book-in-popup');
 const deleteBookBtn = document.querySelector('#delete-yes');
 const closePopupBtns = document.querySelectorAll('.close-popup');
 
 // popups
-const addPopup = document.querySelector('#add-book-popup')
+const addPopup = document.querySelector('#add-book-popup');
+const editPopup = document.querySelector('#edit-book-popup'); 
 const deletePopup = document.querySelector('#delete-book-popup');
 
 // Event listeners
@@ -95,6 +98,10 @@ addBtn.addEventListener('click', () => {
 grid.addEventListener('click', gridEventListener);
 
 addBookBtn.addEventListener('click', addBookToLibrary);
+
+saveEditBtn.addEventListener('click', () => {
+    editBook(bookToBeEdited);
+});
 
 deleteBookBtn.addEventListener('click', removeBookFromLibrary);
 
@@ -150,7 +157,6 @@ function removeBookFromLibrary() {
     const prompt = deletePopup.querySelector('p');
     const bookTitle = prompt.textContent.slice(prompt.textContent.indexOf("'")+1, -2)
     const book = library.find(book => book.title === bookTitle);
-    console.log(book);
     removeBook(book);
     closePopup(deletePopup);
 }
@@ -162,7 +168,40 @@ function gridEventListener(e) {
         popup.classList.toggle('active');
         const prompt = popup.querySelector('p');
         prompt.textContent += ` '${book[0].title}'?`;
+    } else if (e.target.id === 'edit') {
+        const book = library.find(book => book.card === e.target.parentElement.parentElement);
+        bookToBeEdited = book;
+        const popup = document.querySelector('#edit-book-popup');
+        popup.classList.toggle('active');
+        fillEditPopup(bookToBeEdited);
     }
+}
+
+function fillEditPopup(book) {
+    const form = editPopup.querySelector('form');
+    form.querySelector('#book-title').value = book.title;
+    form.querySelector('#book-author').value = book.author;
+    form.querySelector('#book-pages').value = book.page;
+    if (book.status === 'unread') {
+        form.querySelector(`#current-book-unread`).checked = true;
+    } else if (book.status === 'reading') {
+        form.querySelector(`#current-book-reading`).checked = true;
+    } else if (book.status === 'read') {
+        form.querySelector(`#current-book-read`).checked = true;
+    }
+}
+
+function editBook(bookToBeEdited) {
+    const updatedBook = library.find(book => book === bookToBeEdited);
+    const form = editPopup.querySelector('form');
+    updatedBook.title = form.querySelector('#book-title').value;
+    updatedBook.author = form.querySelector('#book-author').value;
+    updatedBook.page = form.querySelector('#book-pages').value;
+    updatedBook.status = form.querySelector(`[name="current-status"]:checked`).value;
+    updatedBook.createCard();
+    updateLibraryGrid();
+    bookToBeEdited = {};
+    closePopup(editPopup);
 }
 
 function resetForm(form) {
