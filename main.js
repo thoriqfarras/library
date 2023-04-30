@@ -24,8 +24,6 @@ Book.prototype.createCard = function createCard() {
     const deleteBtn = document.createElement('button');
     const editBtnIcon = document.createElement('img');
     const deleteBtnIcon = document.createElement('img');
-    const editBtnAnchor = document.createElement('a');
-    const deleteBtnAnchor = document.createElement('a');
     
     // Set text content
     title.textContent = this.title;
@@ -54,9 +52,6 @@ Book.prototype.createCard = function createCard() {
     
     editBtnIcon.setAttribute('src', editIcon);
     deleteBtnIcon.setAttribute('src', deleteIcon);
-    
-    editBtnAnchor.setAttribute('href', '#edit-book-popup');
-    deleteBtnAnchor.setAttribute('href', '#delete-book-popup');
 
     editBtn.appendChild(editBtnIcon);
     deleteBtn.appendChild(deleteBtnIcon);
@@ -86,6 +81,7 @@ const deleteBookBtn = document.querySelector('#delete-yes');
 const closePopupBtns = document.querySelectorAll('.close-popup');
 
 // popups
+let activePopup = {};
 const addPopup = document.querySelector('#add-book-popup');
 const editPopup = document.querySelector('#edit-book-popup'); 
 const deletePopup = document.querySelector('#delete-book-popup');
@@ -107,8 +103,7 @@ deleteBookBtn.addEventListener('click', removeBookFromLibrary);
 
 closePopupBtns.forEach(btn => {
     btn.addEventListener('click', () => {
-        const popup = btn.parentElement.parentElement.parentElement;
-        closePopup(popup);
+        closePopup();
     });
 });
 
@@ -116,7 +111,6 @@ closePopupBtns.forEach(btn => {
 
 function updateLibraryGrid() {
     resetLibraryGrid();
-    const grid = document.querySelector('.collection');
     library.forEach(book => {
         grid.appendChild(book.card);
     });
@@ -144,9 +138,11 @@ function addBookToLibrary() {
     const status = form.querySelector(`[name="status"]:checked`).value;
     console.log(title, author, pages, status);
     addBook(title, author, pages, status);
-    closePopup(addPopup);
+    closePopup();
     resetForm(form);
 }
+
+
 
 function removeBook(bookTbd) {
     library = library.filter(book => book !== bookTbd);
@@ -158,21 +154,19 @@ function removeBookFromLibrary() {
     const bookTitle = prompt.textContent.slice(prompt.textContent.indexOf("'")+1, -2)
     const book = library.find(book => book.title === bookTitle);
     removeBook(book);
-    closePopup(deletePopup);
+    closePopup();
 }
 
 function gridEventListener(e) {
+    const targetCard = e.target.parentElement.parentElement;
+    const targetBook = library.find(book => book.card === targetCard);
     if (e.target.id === 'delete') {
-        const book = library.filter(book => book.card === e.target.parentElement.parentElement);
-        const popup = document.querySelector('#delete-book-popup');
-        popup.classList.toggle('active');
-        const prompt = popup.querySelector('p');
-        prompt.textContent += ` '${book[0].title}'?`;
+        displayPopup('delete');
+        const prompt = deletePopup.querySelector('p');
+        prompt.textContent += ` '${targetBook.title}'?`;
     } else if (e.target.id === 'edit') {
-        const book = library.find(book => book.card === e.target.parentElement.parentElement);
-        bookToBeEdited = book;
-        const popup = document.querySelector('#edit-book-popup');
-        popup.classList.toggle('active');
+        displayPopup('edit');
+        bookToBeEdited = targetBook;
         fillEditPopup(bookToBeEdited);
     }
 }
@@ -201,32 +195,44 @@ function editBook(bookToBeEdited) {
     updatedBook.createCard();
     updateLibraryGrid();
     bookToBeEdited = {};
-    closePopup(editPopup);
+    closePopup();
 }
 
 function resetForm(form) {
     form.reset();
 }
 
-function displayPopup(type) {
-    if (type === 'add') {
-        const popup = document.querySelector('#add-book-popup');
-        popup.classList.toggle('active');
-    } else if (type === 'delete') {
-        const popup = document.querySelector('#delete-book-popup');
-        popup.classList.toggle('active');
-    }
+function updateActivePopup() {
+    const popups = document.querySelectorAll('.overlay');
+    activePopup = [...popups].find(popup => popup.classList.contains('active'));
+    console.log(activePopup);
 }
 
-function closePopup(popup) {
-    popup.classList.toggle('active');
-    if (popup.id === 'delete-book-popup') {
-        const deletePopupPrompt = popup.querySelector('p');
-        deletePopupPrompt.textContent = deletePopupPrompt.textContent.substring(0, deletePopupPrompt.textContent.indexOf("'"));
+function displayPopup(type) {
+    if (type === 'add') {
+        addPopup.classList.toggle('active');
+    } else if (type === 'edit') {
+        editPopup.classList.toggle('active');
+    } else if (type === 'delete') {
+        deletePopup.classList.toggle('active');
+    }
+    updateActivePopup();
+}
+
+function resetDeletePrompt() {
+    const deletePopupPrompt = deletePopup.querySelector('p');
+    deletePopupPrompt.textContent = deletePopupPrompt.textContent.substring(0, deletePopupPrompt.textContent.indexOf("'"));
+}
+
+function closePopup() {
+    activePopup.classList.toggle('active');
+    if (activePopup.id === 'delete-book-popup') {
+        resetDeletePrompt();
     } else {
-        const form = popup.querySelector('form');
+        const form = activePopup.querySelector('form');
         resetForm(form);
     }
+    updateActivePopup();
 }
 
 addBook('The Way of Kings', 'Brandon Sanderson', '764', 'read');
