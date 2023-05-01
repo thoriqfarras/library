@@ -293,7 +293,7 @@ footer > svg:hover {
 
 /* Popups */
 .overlay {
-    position: absolute;
+    position: fixed;
 
     display: grid;
     place-items: center;
@@ -311,6 +311,10 @@ footer > svg:hover {
 .overlay.active {
     visibility: visible;
     opacity: 1;
+}
+
+body:has(.overlay.active) {
+    overflow: hidden;
 }
 
 .popup {
