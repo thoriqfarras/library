@@ -99,7 +99,7 @@ saveEditBtn.addEventListener('click', () => {
     editBook(bookToBeEdited);
 });
 
-deleteBookBtn.addEventListener('click', removeBookFromLibrary);
+deleteBookBtn.addEventListener('click', removeBook);
 
 closePopupBtns.forEach(btn => {
     btn.addEventListener('click', () => {
@@ -143,16 +143,16 @@ function getNewBookInfo() {
     return new Book(title, author, pages, status);
 }
 
-function removeBook(bookTbd) {
+function removeBookFromLibrary(bookTbd) {
     library = library.filter(book => book !== bookTbd);
     updateLibraryGrid();
 }
 
-function removeBookFromLibrary() {
+function removeBook() {
     const prompt = deletePopup.querySelector('p');
     const bookTitle = prompt.textContent.slice(prompt.textContent.indexOf("'")+1, -2)
     const book = library.find(book => book.title === bookTitle);
-    removeBook(book);
+    removeBookFromLibrary(book);
     closePopup();
 }
 
