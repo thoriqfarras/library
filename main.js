@@ -134,7 +134,7 @@ function addBook() {
     const book = getNewBookInfo();
     if (library.map(book => book.title).includes(book.title)) {
         const prompt = duplicatePopup.querySelector('p');
-        prompt.textContent = `'${book.title}' is already in your library.`
+        prompt.textContent = `'${book.title}' is already in your library.`;
         displayPopup('duplicate');
     } else {
         addBookToLibrary(getNewBookInfo());
@@ -176,7 +176,7 @@ function gridEventListener(e) {
     if (e.target.id === 'delete') {
         displayPopup('delete');
         const prompt = deletePopup.querySelector('p');
-        prompt.textContent += ` '${targetBook.title}'?`;
+        prompt.textContent = `Are you sure you want to remove '${targetBook.title}'?`;
     } else if (e.target.id === 'edit') {
         displayPopup('edit');
         bookToBeEdited = targetBook;
@@ -235,35 +235,22 @@ function displayPopup(type) {
     updateActivePopup();
 }
 
-function resetDeletePrompt() {
-    const deletePopupPrompt = deletePopup.querySelector('p');
-    deletePopupPrompt.textContent = deletePopupPrompt.textContent.substring(0, deletePopupPrompt.textContent.indexOf("'"));
-}
-
-function resetDuplicatePrompt() {
-    const duplicatePrompt = deletePopup.querySelector('p');
-    duplicatePrompt.textContent = duplicatePrompt.textContent.substring(duplicatePrompt.textContent.indexOf("is")-1, duplicatePrompt.textContent.length-1);
-}
-
 function closePopup() {
     activePopup.classList.toggle('active');
-    if (activePopup.id === 'delete-book-popup') {
-        resetDeletePrompt();
-    } else {
-        resetForm();
-    }
+    resetForm();
     updateActivePopup();
 }
 
 // UNCOMMENT TO ADD BOOK BY CODE
-// function addBookManually(title, author, page, status) {
-//     const book = new Book(title, author, page, status);
-//     book.createCard();
-//     library.push(book);
-//     updateLibraryGrid();
-// }
 
-// addBookManually('The Way of Kings', 'Brandon Sanderson', '764', 'read');
-// addBookManually('Words of Radiance', 'Brandon Sanderson', '814', 'read');
-// addBookManually('Oathbringer', 'Brandon Sanderson', '852', 'reading');
-// addBookManually('Rhythm of War', 'Brandon Sanderson', 893, 'unread');
+function addBookManually(title, author, page, status) {
+    const book = new Book(title, author, page, status);
+    book.createCard();
+    library.push(book);
+    updateLibraryGrid();
+}
+
+addBookManually('The Way of Kings', 'Brandon Sanderson', '764', 'read');
+addBookManually('Words of Radiance', 'Brandon Sanderson', '814', 'read');
+addBookManually('Oathbringer', 'Brandon Sanderson', '852', 'reading');
+addBookManually('Rhythm of War', 'Brandon Sanderson', 893, 'unread');
