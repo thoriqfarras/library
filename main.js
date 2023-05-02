@@ -76,6 +76,7 @@ let bookToBeEdited = {};
 const grid = document.querySelector('.collection');
 const addBtn = document.querySelector('#add-book');
 const addBookBtn = document.querySelector('#add-book-in-popup');
+const addAnotherBookBtn = document.querySelector('#add-another-book');
 const saveEditBtn = document.querySelector('#edit-book-in-popup');
 const deleteBookBtn = document.querySelector('#delete-yes');
 const closePopupBtns = document.querySelectorAll('.close-popup');
@@ -85,6 +86,7 @@ let activePopup = {};
 const addPopup = document.querySelector('#add-book-popup');
 const editPopup = document.querySelector('#edit-book-popup'); 
 const deletePopup = document.querySelector('#delete-book-popup');
+const duplicatePopup = document.querySelector('#duplicate-book-popup');
 
 // Event listeners
 addBtn.addEventListener('click', () => {
@@ -94,6 +96,11 @@ addBtn.addEventListener('click', () => {
 grid.addEventListener('click', gridEventListener);
 
 addBookBtn.addEventListener('click', addBook);
+
+addAnotherBookBtn.addEventListener('click', () => {
+    closePopup();
+    displayPopup('add');
+});
 
 saveEditBtn.addEventListener('click', () => {
     editBook(bookToBeEdited);
@@ -124,7 +131,14 @@ function resetLibraryGrid() {
 }
 
 function addBook() {
-    addBookToLibrary(getNewBookInfo());
+    const book = getNewBookInfo();
+    if (library.map(book => book.title).includes(book.title)) {
+        const prompt = duplicatePopup.querySelector('p');
+        prompt.textContent = `'${book.title}' is already in your library.`
+        displayPopup('duplicate');
+    } else {
+        addBookToLibrary(getNewBookInfo());
+    }
     closePopup();
 }
 
@@ -199,7 +213,7 @@ function editBook(bookToBeEdited) {
 
 function resetForm() {
     const form = activePopup.querySelector('form');
-    form.reset();
+    form?.reset();
 }
 
 function updateActivePopup() {
@@ -215,6 +229,8 @@ function displayPopup(type) {
         editPopup.classList.toggle('active');
     } else if (type === 'delete') {
         deletePopup.classList.toggle('active');
+    } else if (type === 'duplicate') {
+        duplicatePopup.classList.toggle('active');
     }
     updateActivePopup();
 }
@@ -222,6 +238,11 @@ function displayPopup(type) {
 function resetDeletePrompt() {
     const deletePopupPrompt = deletePopup.querySelector('p');
     deletePopupPrompt.textContent = deletePopupPrompt.textContent.substring(0, deletePopupPrompt.textContent.indexOf("'"));
+}
+
+function resetDuplicatePrompt() {
+    const duplicatePrompt = deletePopup.querySelector('p');
+    duplicatePrompt.textContent = duplicatePrompt.textContent.substring(duplicatePrompt.textContent.indexOf("is")-1, duplicatePrompt.textContent.length-1);
 }
 
 function closePopup() {
