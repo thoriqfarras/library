@@ -140,6 +140,7 @@ function addBook() {
         addBookToLibrary(getNewBookInfo());
     }
     closePopup();
+    // saveLocal(library);
 }
 
 function addBookToLibrary(book) {
@@ -168,6 +169,7 @@ function removeBook() {
     const book = library.find(book => book.title === bookTitle);
     removeBookFromLibrary(book);
     closePopup();
+    // saveLocal(library);
 }
 
 function gridEventListener(e) {
@@ -209,6 +211,7 @@ function editBook(bookToBeEdited) {
     updateLibraryGrid();
     bookToBeEdited = {};
     closePopup();
+    // saveLocal(library);
 }
 
 function resetForm() {
@@ -219,7 +222,6 @@ function resetForm() {
 function updateActivePopup() {
     const popups = document.querySelectorAll('.overlay');
     activePopup = [...popups].find(popup => popup.classList.contains('active'));
-    console.log(activePopup);
 }
 
 function displayPopup(type) {
@@ -241,16 +243,27 @@ function closePopup() {
     updateActivePopup();
 }
 
+// function saveLocal(item) {
+//     localStorage.setItem('library', item);
+// }
+
+// function restoreLocal() {
+//     library = !localStorage.getItem('library') ? localStorage.getItem('library') : [];
+//     updateLibraryGrid();
+// }
+
+// restoreLocal();
+
 // UNCOMMENT TO ADD BOOK BY CODE
 
-function addBookManually(title, author, page, status) {
-    const book = new Book(title, author, page, status);
-    book.createCard();
-    library.push(book);
-    updateLibraryGrid();
-}
+// function addBookManually(title, author, page, status) {
+//     const book = new Book(title, author, page, status);
+//     book.createCard();
+//     library.push(book);
+//     updateLibraryGrid();
+// }
 
-addBookManually('The Way of Kings', 'Brandon Sanderson', '764', 'read');
-addBookManually('Words of Radiance', 'Brandon Sanderson', '814', 'read');
-addBookManually('Oathbringer', 'Brandon Sanderson', '852', 'reading');
-addBookManually('Rhythm of War', 'Brandon Sanderson', 893, 'unread');
+// addBookManually('The Way of Kings', 'Brandon Sanderson', '764', 'read');
+// addBookManually('Words of Radiance', 'Brandon Sanderson', '814', 'read');
+// addBookManually('Oathbringer', 'Brandon Sanderson', '852', 'reading');
+// addBookManually('Rhythm of War', 'Brandon Sanderson', 893, 'unread');
