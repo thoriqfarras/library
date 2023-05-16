@@ -73,6 +73,7 @@ Book.prototype.createCard = function createCard() {
 
 let library = [];
 let bookToBeEdited = {};
+const themeSwitcher = document.querySelector('#theme-switcher');
 const grid = document.querySelector('.collection');
 const addBtn = document.querySelector('#add-book');
 const addBookBtn = document.querySelector('#add-book-in-popup');
@@ -89,6 +90,12 @@ const deletePopup = document.querySelector('#delete-book-popup');
 const duplicatePopup = document.querySelector('#duplicate-book-popup');
 
 // Event listeners
+themeSwitcher.addEventListener('click', (e) => {
+    console.log(e.target);
+    const header = document.querySelector('header');
+    header.classList.toggle('dark');
+});
+
 addBtn.addEventListener('click', () => {
     displayPopup('add');
 });
