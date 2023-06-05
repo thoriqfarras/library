@@ -9,6 +9,7 @@ class Book {
         this.author = author,
         this.pages = pages;
         this.status = status;
+        this.createCard();
     }
     
     get title() { return this._title; }
@@ -19,8 +20,6 @@ class Book {
     
     get status() { return this._status; }
     
-    get card() { return this._card; }
-    
     set title(title) { this._title = title; }
     
     set author(author) { this._author = author; }
@@ -29,9 +28,7 @@ class Book {
     
     set status(status) { this._status = status; }
     
-    createCard() {
-        this._card = createCard(this);
-    }
+    createCard() { this.card = createCard(this); }
 }
 
 function createCard(book) {
@@ -92,185 +89,184 @@ function createCard(book) {
     return card;
 }
 
-let library = [];
-let bookToBeEdited = {};
-const grid = document.querySelector('.collection');
-const addBtn = document.querySelector('#add-book');
-const addBookBtn = document.querySelector('#add-book-in-popup');
-const addAnotherBookBtn = document.querySelector('#add-another-book');
-const saveEditBtn = document.querySelector('#edit-book-in-popup');
-const deleteBookBtn = document.querySelector('#delete-yes');
-const closePopupBtns = document.querySelectorAll('.close-popup');
+class Library {
+    library = [];
+    // form = FormHandler();
+    
+    get library() {
+        return this.library;
+    }
+    
+    addBook(book) {
+        if (this.library.map(book => book.title).includes(book.title)) { 
+            return 'duplicate';
+        }
+        console.log(this.library);
+        this.library.push(book);
+        return 'success';
+    }
+    
+    editBook(toBeEdited, newTitle, newAuthor, newPages, newStatus) {
+        let updated = this.library.find(book => book === toBeEdited);
+        updated.title = newTitle;
+        updated.author = newAuthor;
+        updated.pages = newPages;
+        updated.status = newStatus;
+        updated.createCard()
+    }
+    
+    removeBook(toBeRemoved) {
+        this.library = this.library.filter(book => book.title !== toBeRemoved.title);
+    }
+}
 
-// popups
-let activePopup = {};
-const addPopup = document.querySelector('#add-book-popup');
-const editPopup = document.querySelector('#edit-book-popup'); 
-const deletePopup = document.querySelector('#delete-book-popup');
-const duplicatePopup = document.querySelector('#duplicate-book-popup');
+function DisplayController() {
+    const grid = document.querySelector('.collection');
+    const addBtn = document.querySelector('#add-book');
+    const addBookBtn = document.querySelector('#add-book-in-popup');
+    const addAnotherBookBtn = document.querySelector('#add-another-book');
+    const saveEditBtn = document.querySelector('#edit-book-in-popup');
+    const deleteBookBtn = document.querySelector('#delete-yes');
+    const closePopupBtns = document.querySelectorAll('.close-popup');
+    
+    const addPopup = document.querySelector('#add-book-popup');
+    const editPopup = document.querySelector('#edit-book-popup'); 
+    const deletePopup = document.querySelector('#delete-book-popup');
+    const duplicatePopup = document.querySelector('#duplicate-book-popup');
+    
+    let activePopup = {};
+    
+    let library = new Library();
+    let toBeEdited = {};
+    let toBeRemoved = {};
+    
+    function resetLibraryGrid() {
+        const cards = document.querySelectorAll('.card');
+        cards.forEach(card => {
+            card.remove();
+        });
+    }
+    
+    function updateLibraryGrid() {
+        resetLibraryGrid();
+        library.library.forEach(book => {
+            grid.appendChild(book.card);
+        });
+    }
+    
+    function updateActivePopup() {
+        const activePopups = document.querySelectorAll('.overlay');
+        activePopup = [...activePopups].find(popup => popup.classList.contains('active'));
+        console.log(activePopup);
+    }
+    
+    function displayPopup(type) {
+        if (type === 'add') {
+            addPopup.classList.toggle('active');
+        } else if (type === 'edit') {
+            editPopup.classList.toggle('active');
+        } else if (type === 'delete') {
+            deletePopup.classList.toggle('active');
+        } else if (type === 'duplicate') {
+            duplicatePopup.classList.toggle('active');
+        }
+        updateActivePopup();
+    }
+    
+    function closePopup() {
+        activePopup.classList.toggle('active');
+        updateActivePopup();
+    }
+    
+    function addBookLibrary() {
+        const form = activePopup.querySelector('form');
+        const title = form.querySelector('#book-title').value;
+        const author = form.querySelector('#book-author').value;
+        const pages = form.querySelector('#book-pages').value;
+        const status = form.querySelector(`[name="status"]:checked`).value;
+        const book = new Book(title, author, pages, status);
+        const result = library.addBook(book);
 
-// Event listeners
-addBtn.addEventListener('click', () => {
-    displayPopup('add');
-});
+        if (result === 'duplicate') {
+            const prompt = duplicatePopup.querySelector('p');
+            prompt.textContent = `'${book.title}' is already in your library.`;
+            displayPopup('duplicate');
+        }
 
-grid.addEventListener('click', gridEventListener);
-
-addBookBtn.addEventListener('click', addBook);
-
-addAnotherBookBtn.addEventListener('click', () => {
-    closePopup();
-    displayPopup('add');
-});
-
-saveEditBtn.addEventListener('click', () => {
-    editBook(bookToBeEdited);
-});
-
-deleteBookBtn.addEventListener('click', removeBook);
-
-closePopupBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
+        resetForm();
+    }
+    
+    function removeBookLibrary() {
+        library.removeBook(toBeRemoved);
+        toBeRemoved = {};
+    }
+    
+    function fillEditPopup(book) {
+        const form = activePopup.querySelector('form');
+        form.querySelector('#book-title').value = book.title;
+        form.querySelector('#book-author').value = book.author;
+        form.querySelector('#book-pages').value = book.pages;
+        if (book.status === 'unread') {
+            form.querySelector(`#current-book-unread`).checked = true;
+        } else if (book.status === 'reading') {
+            form.querySelector(`#current-book-reading`).checked = true;
+        } else if (book.status === 'read') {
+            form.querySelector(`#current-book-read`).checked = true;
+        }
+    }
+    
+    function editBookLibrary() {
+        const updatedBook = library.library.find(book => book === toBeEdited);
+        const form = activePopup.querySelector('form');
+        const newTitle = form.querySelector('#book-title').value;
+        const newAuthor = form.querySelector('#book-author').value;
+        const newPages = form.querySelector('#book-pages').value;
+        const newStatus = form.querySelector(`[name="current-status"]:checked`).value;
+        library.editBook(toBeEdited, newTitle, newAuthor, newPages, newStatus);
+        toBeEdited = {};
+    }
+    
+    function resetForm() {
+        const form = activePopup.querySelector('form');
+        form?.reset();
+    }
+    
+    function gridEventHandler(e) {
+        const targetCard = e.target.parentElement.parentElement;
+        const targetBook = library.library.find(book => book.card === targetCard);
+        if (e.target.id === 'delete') {
+            toBeRemoved = targetBook;
+            displayPopup('delete');
+            const prompt = deletePopup.querySelector('p');
+            prompt.textContent = `Are you sure you want to remove '${targetBook.title}'?`;
+        } 
+        else if (e.target.id === 'edit') {
+            displayPopup('edit');
+            toBeEdited = targetBook;
+            fillEditPopup(toBeEdited);
+        }
+    }
+    
+    function libraryUpdateHandler(operation) {
+        if (operation === 'add') addBookLibrary();
+        else if (operation === 'delete') removeBookLibrary();
+        else if (operation === 'edit') editBookLibrary();
+        updateLibraryGrid();
         closePopup();
-    });
-});
-
-// functions
-
-function updateLibraryGrid() {
-    resetLibraryGrid();
-    library.forEach(book => {
-        grid.appendChild(book.card);
-    });
-}
-
-function resetLibraryGrid() {
-    const cards = document.querySelectorAll('.card');
-    cards.forEach(card => {
-        card.remove();
+    }
+    
+    addBtn.addEventListener('click', () => displayPopup('add'));
+    grid.addEventListener('click', gridEventHandler);
+    closePopupBtns.forEach(btn => btn.addEventListener('click', closePopup));
+    
+    addBookBtn.addEventListener('click', () => libraryUpdateHandler('add'));
+    deleteBookBtn.addEventListener('click', () => libraryUpdateHandler('delete'));
+    saveEditBtn.addEventListener('click', () => libraryUpdateHandler('edit'))
+    
+    addAnotherBookBtn.addEventListener('click', () => {
+        closePopup();
+        displayPopup('add');
     });
 }
 
-function addBook() {
-    const book = getNewBookInfo();
-    if (library.map(book => book.title).includes(book.title)) {
-        const prompt = duplicatePopup.querySelector('p');
-        prompt.textContent = `'${book.title}' is already in your library.`;
-        displayPopup('duplicate');
-    } else {
-        addBookToLibrary(getNewBookInfo());
-    }
-    closePopup();
-}
-
-function addBookToLibrary(book) {
-    book.createCard();
-    library.push(book);
-    updateLibraryGrid();
-}
-
-function getNewBookInfo() {
-    const form = addPopup.querySelector('form');
-    const title = form.querySelector('#book-title').value;
-    const author = form.querySelector('#book-author').value;
-    const pages = form.querySelector('#book-pages').value;
-    const status = form.querySelector(`[name="status"]:checked`).value;
-    return new Book(title, author, pages, status);
-}
-
-function removeBookFromLibrary(bookTbd) {
-    library = library.filter(book => book !== bookTbd);
-    updateLibraryGrid();
-}
-
-function removeBook() {
-    const prompt = deletePopup.querySelector('p');
-    const bookTitle = prompt.textContent.slice(prompt.textContent.indexOf("'")+1, -2)
-    const book = library.find(book => book.title === bookTitle);
-    removeBookFromLibrary(book);
-    closePopup();
-}
-
-function gridEventListener(e) {
-    const targetCard = e.target.parentElement.parentElement;
-    const targetBook = library.find(book => book.card === targetCard);
-    if (e.target.id === 'delete') {
-        displayPopup('delete');
-        const prompt = deletePopup.querySelector('p');
-        prompt.textContent = `Are you sure you want to remove '${targetBook.title}'?`;
-    } else if (e.target.id === 'edit') {
-        displayPopup('edit');
-        bookToBeEdited = targetBook;
-        fillEditPopup(bookToBeEdited);
-    }
-}
-
-function fillEditPopup(book) {
-    const form = editPopup.querySelector('form');
-    form.querySelector('#book-title').value = book.title;
-    form.querySelector('#book-author').value = book.author;
-    form.querySelector('#book-pages').value = book.pages;
-    if (book.status === 'unread') {
-        form.querySelector(`#current-book-unread`).checked = true;
-    } else if (book.status === 'reading') {
-        form.querySelector(`#current-book-reading`).checked = true;
-    } else if (book.status === 'read') {
-        form.querySelector(`#current-book-read`).checked = true;
-    }
-}
-
-function editBook(bookToBeEdited) {
-    const updatedBook = library.find(book => book === bookToBeEdited);
-    const form = editPopup.querySelector('form');
-    updatedBook.title = form.querySelector('#book-title').value;
-    updatedBook.author = form.querySelector('#book-author').value;
-    updatedBook.pages = form.querySelector('#book-pages').value;
-    updatedBook.status = form.querySelector(`[name="current-status"]:checked`).value;
-    updatedBook.createCard();
-    updateLibraryGrid();
-    bookToBeEdited = {};
-    closePopup();
-}
-
-function resetForm() {
-    const form = activePopup.querySelector('form');
-    form?.reset();
-}
-
-function updateActivePopup() {
-    const popups = document.querySelectorAll('.overlay');
-    activePopup = [...popups].find(popup => popup.classList.contains('active'));
-}
-
-function displayPopup(type) {
-    if (type === 'add') {
-        addPopup.classList.toggle('active');
-    } else if (type === 'edit') {
-        editPopup.classList.toggle('active');
-    } else if (type === 'delete') {
-        deletePopup.classList.toggle('active');
-    } else if (type === 'duplicate') {
-        duplicatePopup.classList.toggle('active');
-    }
-    updateActivePopup();
-}
-
-function closePopup() {
-    activePopup.classList.toggle('active');
-    resetForm();
-    updateActivePopup();
-}
-
-// UNCOMMENT TO ADD BOOK BY CODE
-
-// function addBookManually(title, author, pages, status) {
-//     const book = new Book(title, author, pages, status);
-//     book.createCard();
-//     library.push(book);
-//     updateLibraryGrid();
-// }
-
-// addBookManually('The Way of Kings', 'Brandon Sanderson', '764', 'read');
-// addBookManually('Words of Radiance', 'Brandon Sanderson', '814', 'read');
-// addBookManually('Oathbringer', 'Brandon Sanderson', '852', 'reading');
-// addBookManually('Rhythm of War', 'Brandon Sanderson', 893, 'unread');
+const display = DisplayController();
