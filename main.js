@@ -3,16 +3,38 @@ const deleteIcon = 'assets/delete.svg';
 
 // Book object
 
-function Book(title, author, page, status) {
-    this.title = title;
-    this.author = author;
-    this.page = page;
-    this.status = status;
-    this.card = undefined;
+class Book {
+    constructor(title, author, pages, status) {
+        this.title = title;
+        this.author = author,
+        this.pages = pages;
+        this.status = status;
+    }
+    
+    get title() { return this._title; }
+    
+    get author() { return this._author; }
+    
+    get pages() { return this._pages; }
+    
+    get status() { return this._status; }
+    
+    get card() { return this._card; }
+    
+    set title(title) { this._title = title; }
+    
+    set author(author) { this._author = author; }
+    
+    set pages(pages) { this._pages = pages; }
+    
+    set status(status) { this._status = status; }
+    
+    createCard() {
+        this._card = createCard(this);
+    }
 }
 
-
-Book.prototype.createCard = function createCard() {
+function createCard(book) {
     const card = document.createElement('div');
     const title = document.createElement('h2');
     const author = document.createElement('p');
@@ -26,17 +48,17 @@ Book.prototype.createCard = function createCard() {
     const deleteBtnIcon = document.createElement('img');
     
     // Set text content
-    title.textContent = this.title;
-    author.textContent = this.author;
-    pages.textContent = `Pages: ${this.page}`;
+    title.textContent = book.title;
+    author.textContent = book.author;
+    pages.textContent = `Pages: ${book.pages}`;
     status.textContent = 'Status: ';
-    statusIndicator.textContent = this.status;
+    statusIndicator.textContent = book.status;
     
-    if (this.status === 'unread') {
+    if (book.status === 'unread') {
         statusIndicator.setAttribute('id', 'unread');
-    } else if (this.status === 'reading') {
+    } else if (book.status === 'reading') {
         statusIndicator.setAttribute('id', 'reading');
-    } else if (this.status === 'read') {
+    } else if (book.status === 'read') {
         statusIndicator.setAttribute('id', 'read');
     } else {
         statusIndicator.style.color = '#09090b';
@@ -52,7 +74,7 @@ Book.prototype.createCard = function createCard() {
     
     editBtnIcon.setAttribute('src', editIcon);
     deleteBtnIcon.setAttribute('src', deleteIcon);
-
+    
     editBtn.appendChild(editBtnIcon);
     deleteBtn.appendChild(deleteBtnIcon);
     
@@ -67,9 +89,8 @@ Book.prototype.createCard = function createCard() {
     status.appendChild(statusIndicator);
     card.appendChild(buttons);
     
-    this.card = card;
     return card;
-};
+}
 
 let library = [];
 let bookToBeEdited = {};
@@ -140,7 +161,6 @@ function addBook() {
         addBookToLibrary(getNewBookInfo());
     }
     closePopup();
-    // saveLocal(library);
 }
 
 function addBookToLibrary(book) {
@@ -169,7 +189,6 @@ function removeBook() {
     const book = library.find(book => book.title === bookTitle);
     removeBookFromLibrary(book);
     closePopup();
-    // saveLocal(library);
 }
 
 function gridEventListener(e) {
@@ -190,7 +209,7 @@ function fillEditPopup(book) {
     const form = editPopup.querySelector('form');
     form.querySelector('#book-title').value = book.title;
     form.querySelector('#book-author').value = book.author;
-    form.querySelector('#book-pages').value = book.page;
+    form.querySelector('#book-pages').value = book.pages;
     if (book.status === 'unread') {
         form.querySelector(`#current-book-unread`).checked = true;
     } else if (book.status === 'reading') {
@@ -205,13 +224,12 @@ function editBook(bookToBeEdited) {
     const form = editPopup.querySelector('form');
     updatedBook.title = form.querySelector('#book-title').value;
     updatedBook.author = form.querySelector('#book-author').value;
-    updatedBook.page = form.querySelector('#book-pages').value;
+    updatedBook.pages = form.querySelector('#book-pages').value;
     updatedBook.status = form.querySelector(`[name="current-status"]:checked`).value;
     updatedBook.createCard();
     updateLibraryGrid();
     bookToBeEdited = {};
     closePopup();
-    // saveLocal(library);
 }
 
 function resetForm() {
@@ -243,21 +261,10 @@ function closePopup() {
     updateActivePopup();
 }
 
-// function saveLocal(item) {
-//     localStorage.setItem('library', item);
-// }
-
-// function restoreLocal() {
-//     library = !localStorage.getItem('library') ? localStorage.getItem('library') : [];
-//     updateLibraryGrid();
-// }
-
-// restoreLocal();
-
 // UNCOMMENT TO ADD BOOK BY CODE
 
-// function addBookManually(title, author, page, status) {
-//     const book = new Book(title, author, page, status);
+// function addBookManually(title, author, pages, status) {
+//     const book = new Book(title, author, pages, status);
 //     book.createCard();
 //     library.push(book);
 //     updateLibraryGrid();
