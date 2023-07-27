@@ -49,7 +49,7 @@
   </footer>
   
   <!-- Popups -->
-  <div id="add-book-popup" class="overlay">
+  <div id="add-book-popup" class="overlay" data-mode="">
     <div class="popup">
       <div class="header">
         <h2>Add a book</h2>
@@ -59,15 +59,15 @@
         <ul>
           <li>
             <label for="book-title">Title</label>
-            <input type="text" name="title" id="book-title">
+            <input type="text" name="title" id="book-title" required>
           </li>
           <li>
             <label for="book-author">Author</label>
-            <input type="text" name="author" id="book-author">
+            <input type="text" name="author" id="book-author" required>
           </li>
           <li>
             <label for="book-pages">Pages</label>
-            <input type="number" name="pages" id="book-pages">
+            <input type="number" name="pages" id="book-pages" required>
           </li>
           <li>
             <fieldset>
@@ -84,50 +84,9 @@
               </div>
             </fieldset>
           </li>
-          <button id="add-book-in-popup" type="button">Add book</button>
+          <button id="commit-btn">Add book</button>
         </form>
       </ul>
-    </div>
-  </div>
-  
-  <div id="edit-book-popup" class="overlay">
-    <div class="popup">
-      <div class="header">
-        <h2>Edit a book</h2>
-        <a class='close-popup' href="#">&times;</a>
-      </div>
-      <form>
-        <ul>
-          <li>
-            <label for="book-title">Title</label>
-            <input type="text" name="title" id="book-title">
-          </li>
-          <li>
-            <label for="book-author">Author</label>
-            <input type="text" name="author" id="book-author">
-          </li>
-          <li>
-            <label for="book-pages">Pages</label>
-            <input type="number" name="pages" id="book-pages">
-          </li>
-          <li>
-            <fieldset>
-              <legend>Status</legend>
-              <div class="radio-buttons">
-                <input type="radio" name="current-status" id="current-book-unread" value="unread">
-                <input type="radio" name="current-status" id="current-book-reading" value="reading">
-                <input type="radio" name="current-status" id="current-book-read" value="read">
-              </div>
-              <div class="radio-buttons-text">
-                <label for="current-book-unread">To be read</label>
-                <label for="current-book-reading">Currently reading</label>
-                <label for="current-book-read">Read</label>
-              </div>
-            </fieldset>
-          </li>
-        </ul>
-        <button id="edit-book-in-popup" type="button">Save changes</button>
-      </form>
     </div>
   </div>
   
